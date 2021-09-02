@@ -1,0 +1,15 @@
+name: CI Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v1
+    - name: Runa one-line sctips
+      run: echo "hello world!"
+    - name: Mutli line
+      run: |
+        echo "Ayush \n"
+        ls -lrth
