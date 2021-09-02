@@ -3,7 +3,9 @@ name: CITest
 on: [push]
 
 jobs:
-  environment: test
+  environment:
+    name: test
+    url: https://github.com
   build:
     runs-on: ubuntu-latest
     steps: 
