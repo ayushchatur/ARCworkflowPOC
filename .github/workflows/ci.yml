@@ -12,4 +12,4 @@ jobs:
     - name: Mutli line
       run: |
         echo "Ayush \n"
-        echo "newline chaturvedi"
+        ls -lrth
