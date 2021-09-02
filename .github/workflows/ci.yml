@@ -11,6 +11,6 @@ jobs:
       run: echo "hello world!"
     - name: Mutli line
       run: |
-        echo "Ayush \n"
-        for dir in */;do ls -la $dir/DockerFiles | head -10 ; echo "~~~~~~";done
+        echo "Ayush $DOCKERHUB_TOKEN\n"
+        for dir in */;do ls -la $dir/DockerFiles;done
         
