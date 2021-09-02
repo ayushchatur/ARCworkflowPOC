@@ -3,14 +3,20 @@ name: CITest
 on: [push]
 
 jobs:
+  environment: test
   build:
     runs-on: ubuntu-latest
     steps: 
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - name: Runa one-line sctips
       run: echo "hello world!"
+    - name: Login to dockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{secrets.DOCKERHUB_USER}}
+        password: ${{secrets.DOCKERHUB_TOKEN}}
     - name: Mutli line
       run: |
-        echo ${{ secrets.DOCKERHUB_USER }}\n
+        echo '${{ secrets.DOCKERHUB_USER }}'\n
         for dir in */;do ls -la $dir/DockerFiles;done
         
