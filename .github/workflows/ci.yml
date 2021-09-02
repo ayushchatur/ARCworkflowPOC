@@ -11,6 +11,6 @@ jobs:
       run: echo "hello world!"
     - name: Mutli line
       run: |
-        echo "Ayush ${{ secrets.DOCKERHUB_TOKEN }}\n"
+        echo ${{ secrets.DOCKERHUB_TOKEN }}\n
         for dir in */;do ls -la $dir/DockerFiles;done
         
