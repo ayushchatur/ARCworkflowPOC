@@ -1,6 +1,6 @@
 # ARCworkflowPOC
 
-![Build](https://github.com/ayushchatur/
-ARCworkflowPOC/workflows/CI Test/badge.svg)
+![](https://github.com/ayushchatur/
+ARCworkflowPOC/workflows/CITest/badge.svg)
 
 Testing github actions
