@@ -12,8 +12,8 @@ jobs:
     - name: Login to dockerHub
       uses: docker/login-action@v1
       with:
-        username: ${{secrets.DOCKERHUB_USER}}
-        password: ${{secrets.DOCKERHUB_TOKEN}}
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Mutli line
       run: |
         echo '${{ secrets.DOCKERHUB_USER }}'\n
