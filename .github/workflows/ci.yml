@@ -3,7 +3,7 @@ name: CITest
 on: 
   push:
     branches: [master]
-  pull_requests:
+  pull_request:
     branches: [master]
 
 
