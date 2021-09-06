@@ -1,6 +1,11 @@
 name: CITest
 
-on: [push]
+on: 
+  push:
+    branches: [master]
+  pull_requests:
+    branches: [master]
+
 
 jobs:
   build:
@@ -11,16 +16,34 @@ jobs:
     - uses: actions/checkout@master
     - name: Runa one-line sctips
       run: echo "hello world!"
-    - name: Login to dockerHub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USER }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+  DockerHub:
+    name: Login to dockerHub
+    if: github.event_name == 'pull_request'
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: test
+    uses: docker/login-action@v1
+    with:
+      username: ${{ secrets.DOCKERHUB_USER }}
+      password: ${{ secrets.DOCKERHUB_TOKEN }}
+  BuildImage:
+    name: Build Docker Image
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+    env: 
+      LIST: k
     - name: Mutli line
       run: |
         echo '${{ secrets.DOCKERHUB_USER }}'\n
         for dir in */;do ls -la $dir/DockerFiles;done
     - name: Curl list
       run: | 
-         curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ayushchatur/ARCworkflowPOC/pulls/2/files | grep filename | awk -F ':' '{print $2}' |  awk -F '/' '{print $1 }' | uniq | grep "bc_vt*"
+         LIST=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ayushchatur/ARCworkflowPOC/pulls/2/files | grep filename | awk -F ':' '{print $2}' |  awk -F '/' '{print $1 }' | uniq | grep "bc_vt*" | sed 's/"//g' )
+    - name: event file
+      run: | 
+          cat $GITHUB_EVENT_PATH
+    
 
