@@ -27,6 +27,11 @@ jobs:
     with:
       username: ${{ secrets.DOCKERHUB_USER }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
+    steps:
+    - name: PR NUMBER
+      run: | 
+      PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+      echo $PR_NUMBER
   BuildImage:
     name: Build Docker Image
     needs: [build]
@@ -35,6 +40,7 @@ jobs:
       name: test
     env: 
       LIST: k
+    steps:
     - name: Mutli line
       run: |
         echo '${{ secrets.DOCKERHUB_USER }}'\n
