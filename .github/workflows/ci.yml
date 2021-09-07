@@ -16,3 +16,21 @@ jobs:
     - uses: actions/checkout@master
     - name: Runa one-line sctips
       run: echo "hello world!"
+  DockerHub:
+    name: Login to dockerHub
+    if: github.event_name == 'pull_request'
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: test
+    steps:
+      - name: login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: PR NUMBER
+      run: | 
+        PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        echo $PR_NUMBER
+
