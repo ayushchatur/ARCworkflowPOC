@@ -43,7 +43,7 @@ jobs:
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
   BuildImage:
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
     name: Build Docker Image
     needs: [DockerHub]
     runs-on: ubuntu-latest
