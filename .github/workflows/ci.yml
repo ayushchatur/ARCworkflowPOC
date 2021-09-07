@@ -57,8 +57,7 @@ jobs:
     - name: Folder List
       run: |
           echo "PR from previous JOB via env: ${{ env.PR_NUM  }}"
-          echo "PR from previous JOB via output: ${{ env.DockerHub.outputs.output1  }}"
-
-    - name: event file
-      run: | 
-          cat $GITHUB_EVENT_PATH
+          echo "PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}"
+    # - name: event file
+    #   run: | 
+    #       cat $GITHUB_EVENT_PATH
