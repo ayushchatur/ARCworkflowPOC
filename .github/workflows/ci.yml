@@ -74,11 +74,15 @@ jobs:
       run: | 
           export LIST=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ayushchatur/ARCworkflowPOC/pulls/2/files | grep filename | awk -F ':' '{print $2}' |  awk -F '/' '{print $1 }' | uniq | grep "bc_vt*" | sed 's/"//g' )
           echo $LIST
+      with:
+        PR_NUM: ${{ needs.DockerHub.outputs.output2  }}
+
     - name: Folder List
       run: |
-          echo PR from previous JOB via env: ${{ env.PR_NUM  }}
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}
-          echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output2  }}
+          echo PR from previous JOB via output: ${  env.PR_NUM  }}
+      with:
+        PR_NUM: ${{ needs.DockerHub.outputs.output2  }}
     # - name: event file
     #   run: | 
     #       cat $GITHUB_EVENT_PATH
