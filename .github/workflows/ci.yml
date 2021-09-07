@@ -33,6 +33,8 @@ jobs:
       - name: PR NUMBER
         run: | 
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        env: 
+          PR_NUM=$PR_NUMBER
       - name: echo PR
-        run:  echo $PR_NUMBER
+        run:  echo $PR_NUM
 
