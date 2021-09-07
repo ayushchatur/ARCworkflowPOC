@@ -32,9 +32,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: PR NUMBER
         run: | 
-          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-        env: 
-          PR_NUM: $PR_NUMBER
+          export PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          echo "::set-env name=PR_NUM=$PR_NUMBER"
       - name: echo PR
         run:  echo $PR_NUM
 
