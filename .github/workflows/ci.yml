@@ -6,9 +6,9 @@ on:
   pull_request:
     branches: 
       - master
-      - rearch
 jobs:
   build:
+
     name: Code Checkout
     runs-on: ubuntu-latest
     environment: 
@@ -18,21 +18,48 @@ jobs:
     - name: Runa one-line sctips
       run: echo "hello world!"
   DockerHub:
+    outputs:
+      output1: ${{  steps.step1.output.PR_3}}
     name: Login to dockerHub
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
     needs: [build]
     runs-on: ubuntu-latest
     environment: 
       name: test
     steps:
+      - id: step1
       - name: login
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: PR NUMBER
+      - id: step2
         run: | 
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
+          echo "::set-output name=PR_3::hello"
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
+  BuildImage:
+    name: Build Docker Image
+    needs: [DockerHub]
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+    env: 
+      LIST: k
+    steps:
+    - name: Curl list
+      run: | 
+          export LIST=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ayushchatur/ARCworkflowPOC/pulls/2/files | grep filename | awk -F ':' '{print $2}' |  awk -F '/' '{print $1 }' | uniq | grep "bc_vt*" | sed 's/"//g' )
+          echo "DIR_L=$LIST" >> $GITHUB_ENV
+    - name: Folder List
+      run: | 
+          echo "${{ env.DIR_L }}"
+          echo "PR from previous JOB via env: ${{ env.PR_NUM  }}"
+          echo "PR from previous JOB via output: ${{ env.DockerHub.outputs.output1  }}"
+
+    - name: event file
+      run: | 
+          cat $GITHUB_EVENT_PATH
