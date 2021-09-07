@@ -1,5 +1,4 @@
 name: CITest
-
 on: 
   push:
     branches: 
@@ -7,10 +6,9 @@ on:
   pull_request:
     branches: 
       - master
-
-
 jobs:
   build:
+    name: Code Checkout
     runs-on: ubuntu-latest
     environment: 
       name: test
