@@ -81,8 +81,8 @@ jobs:
       run: |
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}
           echo PR from previous JOB via output: ${  env.PR_NUM  }}
-      with:
-        PR_NUM: ${{ needs.DockerHub.outputs.output2  }}
+      # with:
+      #   PR_NUM: ${{ needs.DockerHub.outputs.output2  }}
     # - name: event file
     #   run: | 
     #       cat $GITHUB_EVENT_PATH
