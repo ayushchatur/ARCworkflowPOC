@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output1: ${{  steps.step2.output.PR_3 }}
-      output2: ${{  steps.step2.output.PR_NUM }}    
+      output2: ${{  steps.step3.output.PR_NUM2 }}    
     environment: 
       name: test
     steps:
@@ -51,7 +51,8 @@ jobs:
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
           echo "::set-output name=PR_3::hello"
-          echo "::set-output name=PR_NUM::$PR_NUMBER"
+      - id: step3
+        run:  echo "::set-output name=PR_NUM2::${{ env.PR_NUM }}"
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
   BuildImage:
