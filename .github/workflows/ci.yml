@@ -20,7 +20,8 @@ jobs:
       run: echo "hello world!"
   DockerHub:
     outputs:
-      output1: ${{  steps.step1.output.PR_3}}
+      output1: ${{  steps.step1.output.PR_3 }}
+      output2: ${{  steps.step1.output.PR_NUM }}
     name: Login to dockerHub
 
     needs: [build]
@@ -38,6 +39,7 @@ jobs:
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
           echo "::set-output name=PR_3::hello"
+          echo "::set-output name=PR_NUM::$PR_NUMBER"
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
   BuildImage:
@@ -58,6 +60,7 @@ jobs:
       run: |
           echo "PR from previous JOB via env: ${{ env.PR_NUM  }}"
           echo "PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}"
+          echo "PR from previous JOB via output: ${{ needs.DockerHub.outputs.output2  }}"
     # - name: event file
     #   run: | 
     #       cat $GITHUB_EVENT_PATH
