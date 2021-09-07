@@ -57,8 +57,8 @@ jobs:
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
     outputs:
-      output1: ${{  steps.step2.output.ppp }}
-      output2: ${{  steps.step3.output.PR_NUM2 }}      
+      output1: ${{  steps.step2.outputs.ppp }}
+      output2: ${{  steps.step3.outputs.PR_NUM2 }}      
   BuildImage:
     # if: github.event_name == 'pull_request'
     name: Build Docker Image
