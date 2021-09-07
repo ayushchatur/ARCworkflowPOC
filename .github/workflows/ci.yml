@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: 
       - master
+      - rearch
 jobs:
   build:
     name: Code Checkout
