@@ -30,13 +30,14 @@ jobs:
       run: echo "hello world!"
   
   DockerHub:
-    outputs:
-      output1: ${{  steps.step1.output.PR_3 }}
-      output2: ${{  steps.step1.output.PR_NUM }}
+
     name: Login to dockerHub
 
     needs: [build]
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{  steps.step2.output.PR_3 }}
+      output2: ${{  steps.step2.output.PR_NUM }}    
     environment: 
       name: test
     steps:
@@ -70,7 +71,7 @@ jobs:
           echo $LIST
     - name: Folder List
       run: |
-          echo PR from previous JOB via env: ${{ env.PR_NUM  }}"
+          echo PR from previous JOB via env: ${{ env.PR_NUM  }}
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output2  }}
     # - name: event file
