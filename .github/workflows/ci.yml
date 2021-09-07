@@ -8,8 +8,18 @@ on:
       - master
       - rearch
 jobs:
+  matr:
+    name: Matrix test
+    runs-on:  ubuntu-20.04
+    environment: 
+      name: test
+    strategy:
+      matrix:
+        docker_ver: [x86,arm64]
+    steps:
+      - name: print mat
+        run: echo ${{ matrix.docker_ver  }}
   build:
-
     name: Code Checkout
     runs-on: ubuntu-latest
     environment: 
@@ -18,6 +28,7 @@ jobs:
     - uses: actions/checkout@master
     - name: Runa one-line sctips
       run: echo "hello world!"
+  
   DockerHub:
     outputs:
       output1: ${{  steps.step1.output.PR_3 }}
@@ -45,6 +56,7 @@ jobs:
   BuildImage:
     # if: github.event_name == 'pull_request'
     name: Build Docker Image
+
     needs: [DockerHub]
     runs-on: ubuntu-latest
     environment:
@@ -58,7 +70,7 @@ jobs:
           echo $LIST
     - name: Folder List
       run: |
-          echo PR from previous JOB via env: ${{ env.PR_NUM  }}
+          echo PR from previous JOB via env: ${{ env.PR_NUM  }}"
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output1  }}
           echo PR from previous JOB via output: ${{ needs.DockerHub.outputs.output2  }}
     # - name: event file
