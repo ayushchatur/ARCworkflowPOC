@@ -21,7 +21,7 @@ jobs:
     outputs:
       output1: ${{  steps.step1.output.PR_3}}
     name: Login to dockerHub
-    # if: github.event_name == 'pull_request'
+
     needs: [build]
     runs-on: ubuntu-latest
     environment: 
@@ -40,6 +40,7 @@ jobs:
       - name: echo PR
         run: echo "${{  env.PR_NUM  }}"
   BuildImage:
+    if: github.event_name == 'pull_request'
     name: Build Docker Image
     needs: [DockerHub]
     runs-on: ubuntu-latest
@@ -57,6 +58,7 @@ jobs:
           echo "${{ env.DIR_L }}"
           echo "PR from previous JOB via env: ${{ env.PR_NUM  }}"
           echo "PR from previous JOB via output: ${{ env.DockerHub.outputs.output1  }}"
+
     - name: event file
       run: | 
           cat $GITHUB_EVENT_PATH
