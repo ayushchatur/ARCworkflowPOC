@@ -25,9 +25,8 @@ jobs:
    environment: 
      name: test
    steps: 
-   - name: Runa one-line sctips
-     uses: actions/checkout@master
-     run: echo "hello world!" 
+     - uses: actions/checkout@master
+     - run: echo hello 
 
   DockerHub:
 
