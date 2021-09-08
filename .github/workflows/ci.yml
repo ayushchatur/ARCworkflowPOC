@@ -1,8 +1,8 @@
 name: CITest
 on: 
-  push:
-    branches: 
-      - master
+  # push:
+  #   branches: 
+  #     - master
   pull_request:
     branches: 
       - master
@@ -27,6 +27,8 @@ jobs:
       name: test
     steps:
       - uses: actions/checkout@master
+        with:
+          path: my-repo
       - run: echo hello
         name: Code Checkout
       - name: Get PR number
@@ -44,7 +46,7 @@ jobs:
       output1: ${{  steps.step2.outputs.ppp }}
       output2: ${{  steps.step3.outputs.PR_NUM2 }}      
   DockerHub:
-  
+    if: github.event_name == 'pull_request'
     name: Login to dockerHub
     needs: [build]
     runs-on: ubuntu-latest
@@ -65,21 +67,18 @@ jobs:
         with:
           push: true
           tags: vtarc/poc_repo:latest
-          file: ./bc_vt_app_hilde/Dockerfile 
+          file: $GITHUB_WORKSPACE/my-repo/bc_vt_app_hilde/Dockerfile 
   BuildImage:
-    # if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request'
     name: Build Docker Image
-
     needs: [DockerHub]
     runs-on: ubuntu-latest
     environment:
       name: test
-    env: 
-      LIST: k
     steps:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
-      - name: test
+      - name: List all files using plugin
         run: |
           cat $HOME/files.json
           cat $HOME/files_modified.json
