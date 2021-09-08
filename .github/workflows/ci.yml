@@ -27,8 +27,7 @@ jobs:
    steps: 
    - uses: actions/checkout@master
    - name: Runa one-line sctips
-     run: echo "hello world!"
-#jobs:  
+     run: echo "hello world!" 
   DockerHub:
 
     name: Login to dockerHub
