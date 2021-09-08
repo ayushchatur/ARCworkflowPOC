@@ -27,7 +27,7 @@ jobs:
       name: test
     steps:
       - uses: actions/checkout@master
-        run: echo hello
+      - run: echo hello
         name: Code Checkout
   DockerHub:
   
