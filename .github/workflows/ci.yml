@@ -8,26 +8,26 @@ on:
       - master
       - rearch
 jobs:
-  matr:
-    name: Matrix test
-    runs-on:  ubuntu-20.04
-    environment: 
-      name: test
-    strategy:
-      matrix:
-        docker_ver: [x86,arm64]
-    steps:
-      - name: print mat
-        run: echo ${{ matrix.docker_ver  }}
-  build:
-    name: Code Checkout
-    runs-on: ubuntu-latest
-    environment: 
-      name: test
-    steps: 
-    - uses: actions/checkout@master
-    - name: Runa one-line sctips
-      run: echo "hello world!"
+  # matr:
+  #   name: Matrix test
+  #   runs-on:  ubuntu-20.04
+  #   environment: 
+  #     name: test
+  #   strategy:
+  #     matrix:
+  #       docker_ver: [x86,arm64]
+  #   steps:
+  #     - name: print mat
+  #       run: echo ${{ matrix.docker_ver  }}
+  # build:
+  #   name: Code Checkout
+  #   runs-on: ubuntu-latest
+  #   environment: 
+  #     name: test
+  #   steps: 
+  #   - uses: actions/checkout@master
+  #   - name: Runa one-line sctips
+  #     run: echo "hello world!"
   
   DockerHub:
 
