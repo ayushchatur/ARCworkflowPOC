@@ -1,15 +1,98 @@
-name: CI Test
-
-on: [push]
-
+name: CITest
+on: 
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches: 
+      - master
+      - rearch
 jobs:
+  matr:
+    name: Matrix test
+    runs-on:  ubuntu-20.04
+    environment: 
+      name: test
+    strategy:
+      matrix:
+        docker_ver: [x86,arm64]
+    steps:
+      - name: print mat
+        run: echo ${{ matrix.docker_ver  }}
   build:
+    name: Code Checkout
     runs-on: ubuntu-latest
+    environment: 
+      name: test
     steps: 
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - name: Runa one-line sctips
       run: echo "hello world!"
-    - name: Mutli line
-      run: |
-        echo "Ayush \n"
-        ls -lrth
+  
+  DockerHub:
+
+    name: Login to dockerHub
+
+    needs: [build]
+    runs-on: ubuntu-latest
+  
+    environment: 
+      name: test
+    steps:
+      - name: Login Docker Hub step
+        id: step1
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Get PR number
+        id: step2
+        run: | 
+          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
+          echo "::set-output name=ppp::hello"
+      - name: env varibale set
+        id: step3
+        run:  echo "::set-output name=PR_NUM2::${{ env.PR_NUM }}"
+      - name: echo PR
+        run: echo "${{  env.PR_NUM  }}"
+    outputs:
+      output1: ${{  steps.step2.outputs.ppp }}
+      output2: ${{  steps.step3.outputs.PR_NUM2 }}      
+  BuildImage:
+    # if: github.event_name == 'pull_request'
+    name: Build Docker Image
+
+    needs: [DockerHub]
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+    env: 
+      LIST: k
+    steps:
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+      - name: test
+        run: |
+          cat $HOME/files.json
+          cat $HOME/files_modified.json
+          cat $HOME/files_added.json
+          cat $HOME/files_removed.json
+          echo '${{ steps.file_changes.outputs.files}}'
+          echo '${{ steps.file_changes.outputs.files_modified}}'
+          echo '${{ steps.file_changes.outputs.files_added}}'
+          echo '${{ steps.file_changes.outputs.files_removed}}'
+      - name: List folders
+        id: step00 
+        run: | 
+            LIST=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ayushchatur/ARCworkflowPOC/pulls/${{  needs.DockerHub.outputs.output2  }}/files | grep filename | awk -F ':' '{print $2}' |  awk -F '/' '{print $1 }' | uniq | grep  "bc_vt*" | sed 's/"//g' )
+            for j in "${LIST[@]}"; do echo "$j"; done
+            echo "FL_L=$LIST" >> $GITHUB_ENV
+            echo "::set-output name=FL_LIST::${{ env.FL_L }}" 
+      - name: Push to docker
+        uses: docker/build-push-action@v2
+        id: docker_build
+        with:
+          push: true
+          tags: vtarc/poc_repo:latest
+          file: ./bc_vt_app_hilde/Dockerfile 
