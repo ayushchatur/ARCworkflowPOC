@@ -7,7 +7,7 @@ on:
     branches: 
       - master
       - rearch
-#jobs:
+jobs:
 #  matr:
 #    name: Matrix test
 #    runs-on:  ubuntu-20.04
@@ -19,16 +19,16 @@ on:
 #    steps:
 #      - name: print mat
 #        run: echo ${{ matrix.docker_ver  }}
-#  build:
-#    name: Code Checkout
-#    runs-on: ubuntu-latest
-#    environment: 
-#      name: test
-#    steps: 
-#    - uses: actions/checkout@master
-#    - name: Runa one-line sctips
-#      run: echo "hello world!"
-jobs:  
+ build:
+   name: Code Checkout
+   runs-on: ubuntu-latest
+   environment: 
+     name: test
+   steps: 
+   - uses: actions/checkout@master
+   - name: Runa one-line sctips
+     run: echo "hello world!"
+#jobs:  
   DockerHub:
 
     name: Login to dockerHub
