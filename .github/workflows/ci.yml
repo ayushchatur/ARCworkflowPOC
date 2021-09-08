@@ -60,7 +60,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: list
-        run: ls -larth
+        run: ls -larth;pwd
       - name: Push to docker
         uses: docker/build-push-action@v2
         id: docker_build
