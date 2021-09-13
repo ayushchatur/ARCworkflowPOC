@@ -58,13 +58,13 @@ jobs:
         with:
           images: my-docker-hub-namespace/my-docker-hub-repository
       - name: list
-        run: ls -larth;pwd
+        run: ls -larth ./my-repo;pwd
       - name: Push to docker
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@latest
         id: docker_build
         with:
           push: true
-          tags:  ${{ github.repository }}:${{ env.RELEASE_VERSION }}
+          tags:  vtarc/poc_repo:latest
           file: ${{env.GITHUB_WORKSPACE}}/my-repo/bc_vt_app_hilde/Dockerfile 
     outputs:
       output1: ${{  steps.step2.outputs.ppp }}
