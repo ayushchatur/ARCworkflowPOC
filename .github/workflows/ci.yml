@@ -60,7 +60,7 @@ jobs:
       - name: list
         run: ls -larth ./my-repo;pwd
       - name: Push to docker
-        uses: docker/build-push-action@latest
+        uses: docker/build-push-action@v2
         id: docker_build
         with:
           push: true
