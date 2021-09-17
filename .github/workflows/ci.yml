@@ -59,7 +59,7 @@ jobs:
         with:
           images:  vtarc/poc_repo
       - name: list
-        run: ls -larth ${{ GITHUB_WORKSPACE }};pwd
+        run: ls -larth $GITHUB_WORKSPACE ;pwd
       - name: Push to docker
         uses: docker/build-push-action@v2
         id: docker_build
