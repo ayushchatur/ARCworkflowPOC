@@ -31,13 +31,13 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 # Conda packages from course
 RUN conda install -y -c anaconda python=3.7
-RUN conda install -y -c conda-forge numpy \
+RUN conda -y -c conda-forge numpy \
  'jupyterlab' \
  'matplotlib' \
  'scipy'\
- 'scikit-learn'
+ 'scikit-learn' \
  'folium' \
- 'more-itertools'
+ 'more-itertools' \
  'pandas'\
  'networkx' \
  'cftime' \
@@ -54,5 +54,3 @@ RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
-
-RUN echo "hello"
