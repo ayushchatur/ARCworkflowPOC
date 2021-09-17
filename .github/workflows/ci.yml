@@ -64,10 +64,10 @@ jobs:
         uses: docker/build-push-action@v2
         id: docker_build
         with:
-          context: $GITHUB_WORKSPACE 
+          context: . 
           push: true
           tags:  vtarc/poc_repo:latest
-          file: ./bc_vt_app_hilde/Dockerfile 
+          file: bc_vt_app_hilde/Dockerfile 
     outputs:
       output1: ${{  steps.step2.outputs.ppp }}
       output2: ${{  steps.step3.outputs.PR_NUM2 }}   
