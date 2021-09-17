@@ -31,7 +31,7 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 # Conda packages from course
 RUN conda install -y -c anaconda python=3.7
-RUN conda -y -c conda-forge numpy \
+RUN conda install -y -c conda-forge numpy \
  'jupyterlab' \
  'matplotlib' \
  'scipy'\
