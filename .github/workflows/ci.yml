@@ -67,7 +67,7 @@ jobs:
           context: .
           push: true
           tags:  vtarc/poc_repo:latest
-          file: bc_vt_app_hilde/DockerFiles/DockerFile 
+          file: ./bc_vt_app_hilde/DockerFiles/Dockerfile
     outputs:
       output1: ${{  steps.step2.outputs.ppp }}
       output2: ${{  steps.step3.outputs.PR_NUM2 }}   
